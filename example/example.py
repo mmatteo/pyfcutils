@@ -19,21 +19,17 @@ while io.next_event():
 	if io.eventnumber > 10:
 		break
 
-	print("Event time:", io.eventtime)
+	print("FlashCam: Event time: %f bl0: %d bl1: %d <bl>: %5.1f" %(io.eventtime,io.prebaselines0,io.prebaselines1,io.average_prebaselines))
 
 	pyplot.plot(io.traces[0] - io.average_prebaselines[0], label="Trace %d" % io.eventnumber)
 
     	#for i, (bl, prebl0, integral, trace) in enumerate(zip(io.baselines, io.prebaselines0, io.integrals, io.traces)):
 	#pyplot.plot(trace - bl, label="Trace %d" % io.eventnumber)
 
-    	#print("FlashCam baseline:", bl)
-    	#print("FlashCam integrator:", prebl0)
-    	#print("Legend prebaseline_0:", integral)
-
 #axs[io.eventnumber].plot(trace - bl, label="Trace %d" % i)
 #pyplot.ylim(190, 210)
 
-pyplot.xlabel("Time [4 ns]")
-pyplot.ylabel("Amplitude [LSB]")
+pyplot.xlabel("Time [16 ns]")
+pyplot.ylabel("Baseline subt. amplitude [LSB]")
 pyplot.legend()
 pyplot.show()
