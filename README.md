@@ -6,6 +6,12 @@ If and when a stable state should be reached, it will probably be merged into th
 You need cython to compile the library, which can be installed through the usual channels like:
 
 ```
+pip install -e pyfcutils
+```
+
+or
+
+```
 pip install cython
 ```
 
