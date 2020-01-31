@@ -3,7 +3,7 @@ import numpy as np
 from fcutils import fcio
 
 # The fcio class is used to open the datafile
-io = fcio("./example/th228.fcio")
+io = fcio("./th228.fcio")
 
 print("Number of adcs", io.nadcs)
 print("Number of samples", io.nsamples)
