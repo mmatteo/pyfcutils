@@ -15,8 +15,8 @@ while io.next_event():
                 break
         print("  Number of triggered adcs: ",io.numtraces,io.tracelist)
         for adc in io.tracelist:
-                print("   FlashCam: ADC: %d Event time: %f bl0: %d <bl>: %d daq_e: %5.1f" %(adc,io.eventtime,io.prebaseline[adc],io.average_prebaseline[adc],io.daqenergy[adc]))
-                pyplot.plot(np.array(io.traces[adc],dtype=np.int32)-io.average_prebaseline[adc], label="Trace %d - ch %d" %(io.eventnumber,adc))
+                print("   FlashCam: ADC: %d Event time: %f bl: %d daq_e: %5.1f" %(adc,io.eventtime,io.baseline[adc],io.daqenergy[adc]))
+                pyplot.plot(np.array(io.traces[adc],dtype=np.int32)-io.baseline[adc], label="Trace %d - ch %d" %(io.eventnumber,adc))
                 
 pyplot.xlabel("Time [16 ns]")
 pyplot.ylabel("Baseline subt. amplitude [LSB]")
