@@ -1,3 +1,5 @@
+# distutils: language = c++
+
 cdef extern from "fcio.h":
   FCIOData* FCIOOpen(const char* name, int timeout, int buffer)
   int FCIOClose(FCIOData *x)
@@ -35,7 +37,9 @@ cdef extern from "fcio.h":
     float pulser                   
     int timeoffset[10]             
     int deadregion[10]             
-    int timestamp[10]             
+    int timestamp[10]
+    int num_traces
+    unsigned short trace_list[2305]             
     unsigned short* trace[2304]    
     unsigned short* theader[2304]  
     unsigned short traces[2304 * 4002]  

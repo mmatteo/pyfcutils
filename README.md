@@ -54,14 +54,13 @@ gps # gps mode (0: not used, 1: external pps and 10MHz)
 
 The FCIOEvent accessors are the following
 ```
+numtraces # number of adcs that have triggered for each events
+tracelist # list of triggered adc channels
 traces # the full traces for the event, shape = (nadcs, nsamples)
-triggertraces # the triggersum traces (per FADC Card), shape = (ntriggers, nsamples)
-baselines # the fpga baseline values for each channel in LSB
-integrals # the fpga integrator values for each channel in LSB
+daqenergy # the fpga energy values for each channel in LSB
+prebaseline # the fpga baseline values for each channel in LSB
 eventnumber # the eventnumber since the beginning of the file
 eventtime # the time since the beginning of the file in seconds
 ```
 
 the traces / triggertraces members are numpy arrays wrapped around the fcio memory field, and provide a shape member, whichs corresponds to (nadcs,nsamples) or (ntriggers,nsamples)
-
-Please use the issuetracker for bugreports!

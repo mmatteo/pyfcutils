@@ -23,8 +23,7 @@ elif sys.platform.startswith('win32'):
 ext_modules = [Extension("fcutils",
                          sources = ["src/fcutils.pyx"],
                          include_dirs=["src/libs", numpy.get_include()],
-                         language='c',
-                         # extra_objects=["src/fcio.a", "src/tmio-0.93.a", "src/fclayout.so"]
+                         #language='c++',
                          extra_objects=extra_objects
               )]
 

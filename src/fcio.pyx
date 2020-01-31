@@ -42,9 +42,16 @@ cdef class fcio:
         rc = 1
         while rc > 0:
             rc = fcio_c.FCIOGetRecord(self._thisptr)
-            if rc == 3:
+            if rc == 3 or rc == 6:
                 return True
         return False
+
+    def _constructTraceList(self):
+        """
+        Returns the list of triggered adcs for the current event
+        """
+        cdef unsigned short [:] tracelist_view = self._thisptr.event.trace_list
+        return np.ndarray(shape=(self.numtraces), dtype=np.uint16, buffer=tracelist_view) 
 
     def _constructTraces(self):
         """
@@ -129,16 +136,16 @@ cdef class fcio:
         return self._constructTriggerTraces()
 
     @property
-    def prebaselines0(self):
+    def prebaseline(self):
         return self._constructTraceHeader(offset=0)
 
     @property
-    def prebaselines1(self):
+    def daqenergy(self):
         return self._constructTraceHeader(offset=2)
 
     @property
-    def average_prebaselines(self):
-        return (self.prebaselines0 + self.prebaselines1) / 2.0
+    def average_prebaseline(self):
+        return self.prebaseline
 
     @property
     def baselines(self):
@@ -156,3 +163,10 @@ cdef class fcio:
     def eventtime(self):
         return self._thisptr.event.timestamp[1] + self._thisptr.event.timestamp[2] / (self._thisptr.event.timestamp[3] + 1.0)
     
+    @property
+    def numtraces(self):
+        return self._thisptr.event.num_traces
+
+    @property
+    def tracelist(self):
+        return self._constructTraceList()
