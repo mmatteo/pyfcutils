@@ -136,24 +136,12 @@ cdef class fcio:
         return self._constructTriggerTraces()
 
     @property
-    def prebaseline(self):
+    def baseline(self):
         return self._constructTraceHeader(offset=0)
 
     @property
     def daqenergy(self):
         return self._constructTraceHeader(offset=2)
-
-    @property
-    def average_prebaseline(self):
-        return self.prebaseline
-
-    @property
-    def baselines(self):
-        return self._constructTraceHeader() / self._thisptr.config.blprecision
-
-    @property
-    def integrals(self):
-        return  ( self._constructTraceHeader(offset=2) - self._constructTraceHeader()) * self._thisptr.config.sumlength / self._thisptr.config.blprecision
 
     @property
     def eventnumber(self):
