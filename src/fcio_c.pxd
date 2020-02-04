@@ -27,7 +27,7 @@ cdef extern from "fcio.h":
 
   ctypedef struct Status:
     int status         
-    int statustime[5]  
+    int statustime[10]  
     int cards          
     int size
     Data data[256]  

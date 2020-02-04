@@ -34,24 +34,24 @@ cdef class fcio:
     def __dealloc__(self):
         fcio_c.FCIOClose(self._thisptr)
 
-    cpdef int next_event(self):
+    cpdef int get_record(self):
         """
         Gets the next event in the data file loaded into the FCIOData struct.
         Use the .traces property to get a memory view wrapped by an np array to the data traces.
         """
         rc = 1
         while rc > 0:
-            rc = fcio_c.FCIOGetRecord(self._thisptr)
-            if rc == 3 or rc == 6:
-                return True
-        return False
+              rc = fcio_c.FCIOGetRecord(self._thisptr)
+              return rc
+        return 0
 
     def _constructTraceList(self):
         """
         Returns the list of triggered adcs for the current event
+        return np.ndarray(shape=(self.nadcs), dtype=np.int, buffer=tracelist_view) 
         """
         cdef unsigned short [:] tracelist_view = self._thisptr.event.trace_list
-        return np.ndarray(shape=(self.numtraces), dtype=np.uint16, buffer=tracelist_view) 
+        return np.ndarray(shape=(self.numtraces), dtype=np.int16, buffer=tracelist_view) 
 
     def _constructTraces(self):
         """
@@ -158,3 +158,44 @@ cdef class fcio:
     @property
     def tracelist(self):
         return self._constructTraceList()
+
+    @property
+    def status(self):
+        return self._thisptr.status.status	
+
+    @property
+    def statustime(self):
+        return self._thisptr.status.statustime	
+
+    @property
+    def cards(self):
+        return self._thisptr.status.cards
+
+    @property
+    def size(self):
+        return self._thisptr.status.size
+
+    @property
+    def environment(self):
+        return self._thisptr.status.data.environment
+
+    @property
+    def totalerrors(self):
+        return self._thisptr.status.data.totalerrors
+
+    @property
+    def enverrors(self):
+        return self._thisptr.status.data.enverrors
+
+    @property
+    def ctierrors(self):
+        return self._thisptr.status.data.ctierrors
+
+    @property
+    def linkerrors(self):
+        return self._thisptr.status.data.linkerrors
+
+    @property
+    def othererrors(self):
+        return self._thisptr.status.data.othererrors
+
