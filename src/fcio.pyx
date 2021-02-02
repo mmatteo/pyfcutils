@@ -144,13 +144,13 @@ cdef class fcio:
         return self._constructTraceHeader(offset=2)
 
     @property
-    def eventnumber(self):
-        return self._thisptr.event.timestamp[0]
+    def pulser(self):
+        return self._thisptr.event.pulser
 
     @property
-    def eventtime(self):
-        return self._thisptr.event.timestamp[1] + self._thisptr.event.timestamp[2] / (self._thisptr.event.timestamp[3] + 1.0)
-    
+    def eventtype(self):
+        return self._thisptr.event.type
+
     @property
     def numtraces(self):
         return self._thisptr.event.num_traces
@@ -160,12 +160,108 @@ cdef class fcio:
         return self._constructTraceList()
 
     @property
+    def eventtime(self):
+        return self._thisptr.event.timeoffset[2] + self._thisptr.event.timestamp[1] + self._thisptr.event.timestamp[2] / (self._thisptr.event.timestamp[3] + 1.0)
+
+    @property
+    def runtime(self):
+        return self._thisptr.event.timestamp[1] + self._thisptr.event.timestamp[2] / (self._thisptr.event.timestamp[3] + 1.0)
+
+    """
+      fcio_event 'timestamp' fields
+    """
+
+    @property
+    def eventnumber(self):
+        return self._thisptr.event.timestamp[0]
+
+    @property
+    def timestamp_pps(self):
+        return self._thisptr.event.timestamp[1]
+
+    @property
+    def timestamp_ticks(self):
+        return self._thisptr.event.timestamp[2]
+
+    @property
+    def timestamp_maxticks(self):
+        return self._thisptr.event.timestamp[3]
+
+    """
+      fcio_event 'timeoffset' fields
+    """
+
+    @property
+    def timeoffset_mu_sec(self):
+        return self._thisptr.event.timeoffset[0]
+
+    @property
+    def timeoffset_mu_usec(self):
+        return self._thisptr.event.timeoffset[1]
+
+    @property
+    def timeoffset_master_sec(self):
+        return self._thisptr.event.timeoffset[2]
+
+    @property
+    def timeoffset_dt_mu_usec(self):
+        return self._thisptr.event.timeoffset[3]
+
+    @property
+    def timeoffset_abs_mu_usec(self):
+        return self._thisptr.event.timeoffset[4]
+
+    @property
+    def timeoffset_start_sec(self):
+        return self._thisptr.event.timeoffset[5]
+
+    @property
+    def timeoffset_start_usec(self):
+        return self._thisptr.event.timeoffset[6]
+    
+    """
+      fcio_event 'deadregion' fields
+    """
+    
+    @property
+    def deadregion_start_pps(self):
+        return self._thisptr.event.deadregion[0]
+
+    @property
+    def deadregion_start_ticks(self):
+        return self._thisptr.event.deadregion[1]
+
+    @property
+    def deadregion_stop_pps(self):
+        return self._thisptr.event.deadregion[2]
+
+    @property
+    def deadregion_stop_ticks(self):
+        return self._thisptr.event.deadregion[3]
+
+    @property
+    def deadregion_maxticks(self):
+        return self._thisptr.event.deadregion[4]
+
+    @property
+    def deadtime(self):
+        return 1.0*(self._thisptr.event.deadregion[2]-self._thisptr.event.deadregion[0]) + (self._thisptr.event.deadregion[3]-self._thisptr.event.deadregion[1])/(1.0*self._thisptr.event.deadregion[4])
+
+    """
+      other fcio_event fields
+    """
+    
+    """
+      fcio_status fields
+    """
+
+    @property
     def status(self):
         return self._thisptr.status.status	
 
     @property
     def statustime(self):
-        return self._thisptr.status.statustime	
+        return self._thisptr.status.statustime
 
     @property
     def cards(self):
