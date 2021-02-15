@@ -32,5 +32,9 @@ setup(
    version = "1.0.0",
    url = "https://git.mpi-hd.mpg.de/ssailer/pyfcutils",
    long_description=read('README.md'),
-   ext_modules = cythonize(ext_modules, language_level=3)
+   ext_modules = cythonize(ext_modules, language_level=3),
+   install_requires=[
+      'cython'
+   ]
+
 )
